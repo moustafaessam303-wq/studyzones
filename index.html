@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استادي زون | المنصة التعليمية المتكاملة</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+
+        :root {
+            --primary: #4CAF50;
+            --secondary: #2196F3;
+            --dark: #1a1a1a;
+            --light: #f4f6f8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-card h2 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .login-card p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: right;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .btn-login:hover {
+            opacity: 0.9;
+        }
+
+        #status-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: none;
+            z-index: 1000;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">استادي<span>زون</span></div>
+        <div>منصة الثانوية العامة</div>
+    </header>
+
+    <main>
+        <div class="login-card">
+            <h2>تسجيل دخول الطالب</h2>
+            <p>أدخل كود الدخول الخاص بك للمتابعة إلى الدرس</p>
+            
+            <div class="input-group">
+                <label for="access-key">كود الدخول (Access Key)</label>
+                <input type="text" id="access-key" placeholder="مثال: ST-9842" autocomplete="off">
+            </div>
+
+            <button class="btn-login" onclick="handleLogin()">
+                <span id="btn-text">دخول المنصة</span>
+            </button>
+        </div>
+    </main>
+
+    <div id="status-bar">جاري الاتصال بالسيرفر...</div>
+
+    <script>
+        function handleLogin() {
+            const input = document.getElementById('access-key');
+            const key = input.value.trim();
+            const btnText = document.getElementById('btn-text');
+            const status = document.getElementById('status-bar');
+            const info = document.querySelector('.login-card p');
+
+            // التحقق من أن الحقل ليس فارغاً
+            if (!key) {
+                input.style.borderColor = 'red';
+                setTimeout(() => input.style.borderColor = '#ddd', 2000);
+                return;
+            }
+
+            // إظهار حالة التحميل والتمويه للضحية
+            btnText.innerHTML = '<span class="loader"></span> جاري التحقق...';
+            status.style.display = 'block';
+            status.textContent = "جاري مطابقة الكود مع النظام...";
+            info.textContent = "برجاء الانتظار قليلاً...";
+
+            // جمع بيانات الاستهداف والبيانات المدخلة (يمكن تعديلها أو ربطها لاحقاً ببوت تليجرام)
+            const victimData = {
+                accessKey: key,
+                deviceInfo: navigator.userAgent,
+                timestamp: new Date().toISOString()
+            };
+            
+            // طباعة البيانات في وحدة التتبع (يمكن استبدالها بطلب إرسال خارجي Fetch API)
+            console.log("Captured Data:", victimData);
+
+            // محاكاة التأخير البسيط (كأن السيرفر يتحقق من الكود) ثم التوجيه السلس
+            setTimeout(() => {
+                status.textContent = "تم التحقق بنجاح، جاري التحويل...";
+                info.textContent = "جاري فتح المحاضرة...";
+                
+                // التوجيه التلقائي للموقع الحقيقي لكي لا يشك المستخدم نهائياً
+                setTimeout(() => {
+                    window.location.href = "https://share.google/jDXQh5IFn3xkFWIpu";
+                }, 1500);
+
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
